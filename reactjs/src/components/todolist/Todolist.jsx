@@ -2,23 +2,62 @@ import React, { useState } from 'react';
 import { FaLightbulb } from 'react-icons/fa';
 
 function Todolist(props) {
-
     const [count, setCount] = useState(0);
     const [status, setStatus] = useState(false);
+
     return (
         <div>
-            <h1 className=' flex justify-center items-center'>To Do List</h1>
-            <div className="add justify-center items-center">
-                <input className='border border-gray-300' type="text" />
-                <button>ADD</button>
+            <h1 className='flex justify-center items-center font-bold mt-4'>To Do List</h1>
+
+            <div className="add flex justify-center items-center mt-4 gap-4">
+                <input className='border border-gray-300 h-10 rounded-full px-4' type="text" />
+                <button className='bg-green-600 w-20 h-10 rounded-full hover:bg-blue-500 hover:text-white'>ADD</button>
             </div>
 
-            <h1 className='flex justify-center gap-2 items-center text-2xl'>{count} <FaLightbulb className={status ? 'text-yellow-500' : ""} /></h1>
-            <div className='flex justify-center gap-2 text-white'>
-                <button onClick={() => setCount(count - 1)} className='bg-green-700 p-3'>--</button>
-                <button onClick={() => setCount(count + 1)} className='bg-green-700 p-3'>++</button>
-                <button onClick={() => setStatus(!status)} className='bg-green-700 p-3'>{status ? "Close" : "Open"}</button>
+            <div className="bang flex justify-center mt-6 px-10">
+                <table className="w-full border-separate border-spacing-y-2">
+                    <thead>
+                        <tr className="text-gray-600">
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th className="text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr className="bg-black text-white">
+                            <td className="p-3 text-center rounded-l-md w-16">1</td>
+                            <td className="p-3 text-center">Học React</td>
+                            <td className="p-3 text-right rounded-r-md">
+                                <button className="bg-blue-500 px-3 py-1 rounded mr-2 text-sm">Edit</button>
+                                <button className="bg-red-600 px-3 py-1 rounded text-sm">Delete</button>
+                            </td>
+                        </tr>
+                        <tr className="bg-black text-white">
+                            <td className="p-3 text-center rounded-l-md w-16">2</td>
+                            <td className="p-3 text-center">Làm Table</td>
+                            <td className="p-3 text-right rounded-r-md">
+                                <button className="bg-blue-500 px-3 py-1 rounded mr-2 text-sm">Edit</button>
+                                <button className="bg-red-600 px-3 py-1 rounded text-sm">Delete</button>
+                            </td>
+                        </tr>
+                        <tr className="bg-black text-white">
+                            <td className="p-3 text-center rounded-l-md w-16">3</td>
+                            <td className="p-3 text-center">Ăn cơm</td>
+                            <td className="p-3 text-right rounded-r-md">
+                                <button className="bg-blue-500 px-3 py-1 rounded mr-2 text-sm">Edit</button>
+                                <button className="bg-red-600 px-3 py-1 rounded text-sm">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+
+            {/* <h1 className='flex justify-center gap-2 items-center text-2xl mt-10'>{count} <FaLightbulb className={status ? 'text-yellow-500' : ""} /></h1>
+            <div className='flex justify-center gap-2 text-white mb-10'>
+                <button onClick={() => setCount(count - 1)} className='bg-green-700 p-3 rounded'>--</button>
+                <button onClick={() => setCount(count + 1)} className='bg-green-700 p-3 rounded'>++</button>
+                <button onClick={() => setStatus(!status)} className='bg-green-700 p-3 rounded'>{status ? "Close" : "Open"}</button>
+            </div> */}
         </div>
     );
 }
