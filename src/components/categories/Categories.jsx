@@ -1,22 +1,54 @@
-import React from 'react';
-
+import React, { use, useEffect, useState } from 'react';
+import Search from '../header/Search';
+import ModalCategory from './ModalCategory';
+import TableCategory from './TableCategory';
+import axios from 'axios';
+const inner = { name: "", description: "" };
 function Categories(props) {
+    const [category, setCategory] = useState(inner);
+    const [open, setOpen] = useState(false);
+    const [error,setError] = useState(inner);
+    const handleOpen = () => {
+        setOpen(true);
+        setCategory(inner);
+    };
+    const handleClose = () => setOpen(false);
+    const [update,setUpdate] = useState(false);
+    // co 3 dang 
+    // 1. chay lien tuc
+    // 2. chay 1 lan 
+    // 3. chay khi depen thay doi 
+    // useEffect(() => {
+    //   setCount(count + 1);
+    // },[open]);
+
+    const onchangInput = (e) => {
+        setCategory({ ...category, [e.target.name]: e.target.value })
+    }
+     const validation = () => {
+        const newError = {} ;
+        newError.name = category.name ? "" : "Please inter your name" ;
+        newError.description = category.description ? "" : "Please inter your description" ;
+        setError(newError);
+        return Object.values(newError).some(e => e != ""); // true co loi
+     } 
+
+   const addCategory = async () => {
+     if(validation()) {
+         return;
+     }
+       await axios.post("https://69bcc9b32bc2a25b22ac5d1c.mockapi.io/categories", category);
+       handleClose();
+       setUpdate(!update);
+   }
+
+
     return (
-        <div className="w-full p-8 lg:p-12">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                <div>
-                    <img src="https://images2.thanhnien.vn/528068263637045248/2024/1/25/e093e9cfc9027d6a142358d24d2ee350-65a11ac2af785880-17061562929701875684912.jpg" className="w-full h-auto object-cover rounded" />
-                </div>
-                <div>
-                    <img src="https://images2.thanhnien.vn/528068263637045248/2024/1/25/e093e9cfc9027d6a142358d24d2ee350-65a11ac2af785880-17061562929701875684912.jpg" className="w-full h-auto object-cover rounded" />
-                </div>
-                <div>
-                    <img src="https://images2.thanhnien.vn/528068263637045248/2024/1/25/e093e9cfc9027d6a142358d24d2ee350-65a11ac2af785880-17061562929701875684912.jpg" className="w-full h-auto object-cover rounded" />
-                </div>
-                <div>
-                    <img src="https://images2.thanhnien.vn/528068263637045248/2024/1/25/e093e9cfc9027d6a142358d24d2ee350-65a11ac2af785880-17061562929701875684912.jpg" className="w-full h-auto object-cover rounded" />
-                </div>
-            </div>
+
+        <div>
+            <Search handleOpen={handleOpen} />
+            <TableCategory update={update} />
+            <ModalCategory error={error} addCategory={addCategory} onchangInput={onchangInput} category={category} open={open} handleClose={handleClose} />
         </div>
     );
 }
