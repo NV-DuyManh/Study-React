@@ -29,7 +29,7 @@ const VisuallyHiddenInput = styled('input')({
 });
 
 const imgBasic = "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcT-BPcBysZBVnPdOgx3wplIL6t1g9HbiAstUKFkgZkEauLdNIcS5N4bz8F6G5M68xcco_B1tcAyLEf6I8BuSeJocpsco88hdD32LNg3OX7JUazA7tE7bdHDYw7Y-gBR&usqp=CAc";
-function ModalProduct({ open, handleClose, product, onchangInput, addProduct, error, handleInputImg ,loading }) {
+function ModalProduct({ open, handleClose, product, onchangInput, addProduct, error, handleInputImg, loading }) {
     const { categories } = useContext(CategoriesContext);
     return (
         <div>
@@ -41,7 +41,7 @@ function ModalProduct({ open, handleClose, product, onchangInput, addProduct, er
             >
                 <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        ADD PRODUCT
+                        {!product.id ? "ADD PRODUCT" : "EDIT PRODUCT"}
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }} component={'div'}>
                         <div className="grid grid-cols-2 gap-5">
@@ -113,16 +113,16 @@ function ModalProduct({ open, handleClose, product, onchangInput, addProduct, er
 
 
                         <DialogActions>
-                            {loading ?  <Button  loading loadingPosition="start" startIcon={<AiOutlineLoading />}>
-                                            Save
-                                        </Button> : <Button onClick={addProduct} variant="contained" sx={{ mt: 2 }}>Add Product</Button> }
-                            
+                            {loading ? <Button loading loadingPosition="start" startIcon={<AiOutlineLoading />}>
+                                Save
+                            </Button> : <Button onClick={addProduct} variant="contained" sx={{ mt: 2 }}>{!product.id ? "ADD" : "EDIT"}</Button>}
+
                         </DialogActions>
                     </Typography>
                 </Box>
             </Modal>
-            
-           
+
+
         </div>
     );
 }

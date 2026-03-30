@@ -11,6 +11,11 @@ function Categories(props) {
     const [open, setOpen] = useState(false);
     const [error, setError] = useState(inner);
     const { handleUpdate } = useContext(CategoriesContext);
+    const [search, setSearch] = useState("");
+    const [loading, setLoading] = useState(false);
+    const onchangSearch = (e) => {
+        setSearch(e.target.value);
+    }
     const handleOpen = () => {
         setOpen(true);
         setCategory(inner);
@@ -25,6 +30,7 @@ function Categories(props) {
     // useEffect(() => {
     //   setCount(count + 1);
     // },[open]);
+
 
     const onchangInput = (e) => {
         setCategory({ ...category, [e.target.name]: e.target.value })
@@ -41,19 +47,36 @@ function Categories(props) {
         if (validation()) {
             return;
         }
+        setLoading(true);
+
         !category.id ? await axios.post("https://69bcc9b32bc2a25b22ac5d1c.mockapi.io/categories", category)
             : await axios.put(`https://69bcc9b32bc2a25b22ac5d1c.mockapi.io/categories/${category.id}`, category);
         handleClose();
         handleUpdate();
+        setLoading(false)
     }
 
     return (
 
         <div>
-            <Search handleOpen={handleOpen} type={"CATEGORIES"} name={"CATEGORY"} />
-            <TableCategory handleOpen={handleOpen} setCategory={setCategory} />
-            <ModalCategory error={error} addCategory={addCategory} onchangInput={onchangInput} category={category} open={open} handleClose={handleClose} />
-     
+            <Search
+                handleOpen={handleOpen}
+                type={"CATEGORIES"}
+                name={"CATEGORY"}
+                onchangSearch={onchangSearch} />
+            <TableCategory
+                handleOpen={handleOpen}
+                setCategory={setCategory}
+                search={search} />
+            <ModalCategory
+                error={error}
+                addCategory={addCategory}
+                onchangInput={onchangInput}
+                category={category}
+                open={open}
+                handleClose={handleClose}
+                loading={loading} />
+
         </div>
     );
 }

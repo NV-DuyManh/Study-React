@@ -15,8 +15,8 @@ function Products(props) {
     const [error, setError] = useState(inner);
     const { handleUpdate } = useContext(ProductContext);
     const [search, setSearch] = useState("");
-    const [loading,setLoading] = useState(false);
-    const onchangSearch = (e)=>{
+    const [loading, setLoading] = useState(false);
+    const onchangSearch = (e) => {
         setSearch(e.target.value)
     }
 
@@ -46,9 +46,9 @@ function Products(props) {
         if (validation()) {
             return;
         }
-         setLoading(true);
+        setLoading(true);
         const urlImg = await uploadImageToCloudinary(product.image, "imgReact");
-        product.image = urlImg ;
+        product.image = urlImg;
         !product.id ? await axios.post("https://69bcc9b32bc2a25b22ac5d1c.mockapi.io/Product", product)
             : await axios.put(`https://69bcc9b32bc2a25b22ac5d1c.mockapi.io/Product/${product.id}`, product);
         handleClose();
@@ -69,8 +69,15 @@ function Products(props) {
 
     return (
         <div>
-            <Search handleOpen={handleOpen} type={"PRODUCTS"} name={"PRODUCT"} onchangSearch={onchangSearch} />
-            <TableProduct setProduct={setProduct} handleOpen={handleOpen} search={search} />
+            <Search
+                handleOpen={handleOpen}
+                type={"PRODUCTS"}
+                name={"PRODUCT"}
+                onchangSearch={onchangSearch} />
+            <TableProduct
+                setProduct={setProduct}
+                handleOpen={handleOpen}
+                search={search} />
             <ModalProduct
                 error={error}
                 addProduct={addProduct}

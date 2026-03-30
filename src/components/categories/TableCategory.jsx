@@ -12,6 +12,7 @@ import { CiEdit } from 'react-icons/ci';
 import { RiDeleteBin6Fill } from 'react-icons/ri';
 import Modal_Delete from '../header/Modal_Delete';
 import { CategoriesContext } from '../contexts/CategoryProvider';
+import BasicPagination from '../header/BasicPagination';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: theme.palette.common.black,
@@ -32,10 +33,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-function TableCategory({ setCategory, handleOpen }) {
+function TableCategory({ setCategory, handleOpen,search }) {
     const [open, setOpen] = React.useState(false);
     const [delelteCategory, setdelelteCategory] = useState(null);
-    const { categories, handleUpdate} = useContext(CategoriesContext);
+    const { categories, handleUpdate } = useContext(CategoriesContext);
+    const ITEMS_PER_PAGE = 5;
+    const [page, setPage] = useState(1);
+    const start = (page - 1) * ITEMS_PER_PAGE;
+    const currentData = categories.filter((e) => e?.name.toLowerCase().includes(search.toLowerCase())).slice(start, start + ITEMS_PER_PAGE);
+
     // ham mo modal xoa => id 
     const handleClickOpen = (id) => {
         setdelelteCategory(id);
@@ -71,7 +77,7 @@ function TableCategory({ setCategory, handleOpen }) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {categories.map((row, index) => (
+                        {currentData.map((row, index) => (
                             <StyledTableRow key={index}>
                                 <StyledTableCell component="th" scope="row">{index + 1}</StyledTableCell>
                                 <StyledTableCell>{row.name}</StyledTableCell>
@@ -86,6 +92,7 @@ function TableCategory({ setCategory, handleOpen }) {
                 </Table>
             </TableContainer>
             <Modal_Delete open={open} handleClose={handleClose} handleDeleted={xoaCate} />
+            <BasicPagination ITEMS_PER_PAGE={ITEMS_PER_PAGE} page={page} setPage={setPage} data={categories} />
 
         </div>
     );

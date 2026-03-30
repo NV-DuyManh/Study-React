@@ -1,4 +1,4 @@
-import { Box, Button, DialogActions, Modal, TextField, Typography } from '@mui/material';
+import { Box, Button, DialogActions, Modal, TextField, Typography, styled } from '@mui/material';import { AiOutlineLoading } from 'react-icons/ai';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -9,8 +9,21 @@ const style = {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
+    maxHeight: '90vh',
+    overflowY: 'auto'
 };
-function ModalCategory({ open, handleClose, category, onchangInput, addCategory, error }) {
+const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+});
+function ModalCategory({ open, handleClose, category, onchangInput, addCategory, error, loading }) {
     return (
         <div>
             <Modal
@@ -48,9 +61,14 @@ function ModalCategory({ open, handleClose, category, onchangInput, addCategory,
                             helperText={error.description}
                         />
                         <DialogActions>
-                            <Button onClick={addCategory} variant="contained" sx={{ mt: 2 }}>
-                                {!category.id ? "ADD" : "EDIT"}
-                            </Button>
+                            {loading ?
+                                <Button loading loadingPosition="start" startIcon={<AiOutlineLoading />}>
+                                    Save
+                                </Button> :
+                                <Button onClick={addCategory} variant="contained" sx={{ mt: 2 }}>
+                                    {!category.id ? "ADD" : "EDIT"}
+                                </Button>}
+
                         </DialogActions>
                     </Typography>
                 </Box>
